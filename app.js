@@ -12,7 +12,9 @@ app.use(index);
 const server = http.createServer(app);
 // call to socketIo() to initialize a new instance by passing in the server object. By doing so we have wired up the ExpressJS server to Socket.IO.
 const io = socketIo(server);
-
+/* 
+on() method takes two arguments: the name of the event, in this case “connection” and a callback which will be executed after every connection event. on() is nothing more than a core Node.js method tied to the EventEmitter class.
+*/
 io.on("connection", socket => {
     console.log("New client connected"), setInterval(
         () => getApiAndEmit(socket),
@@ -20,6 +22,7 @@ io.on("connection", socket => {
     );
     socket.on("disconnect", () => console.log("Client disconnected"));
 });
+// The socket is nothing more than the communication channel between the client and the server.
 const getApiAndEmit = async socket => {
     try {
         const res = await axios.get(
